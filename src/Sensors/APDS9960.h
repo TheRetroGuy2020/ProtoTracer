@@ -23,14 +23,27 @@ public:
         APDS9960::threshold = threshold;
 
         Wire.begin();
-
-        Wire.setSCL(19);
+        
+        #ifdef WS35
+        Wire.setSDA(19);
+        Wire.setSCL(18);
+        #else
         Wire.setSDA(18);
+        Wire.setSCL(19);
+        #endif
 
-        didBegin = apds.begin();
+		Wire.beginTransmission(0x39);
+		uint8_t error = Wire.endTransmission();
 
-        //apds.setLED(APDS9960_LEDDRIVE_12MA, APDS9960_LEDBOOST_100PCNT);
-        //apds.setProxGain(APDS9960_PGAIN_1X);
+		if(error == 0){// SSD1306 Found
+            didBegin = apds.begin();
+
+            //apds.setLED(APDS9960_LEDDRIVE_12MA, APDS9960_LEDBOOST_100PCNT);
+            //apds.setProxGain(APDS9960_PGAIN_1X);
+        }
+        else {
+            didBegin = false;
+        }
 
         return didBegin;
     }

@@ -82,6 +82,13 @@ public:
 		return(beg * (1.0f - mu2) + fin * mu2);
 	}
 
+	static float CosineTransition(float beg, float fin, float ratio){//smoothly transitions from min to max to min from 0.0 to 1.0f
+		float mid = (beg - fin) / 2.0f;
+		
+		if(ratio < mid) return CosineInterpolation(beg, fin, 1.0f - ratio * 2.0f);
+		else return CosineInterpolation(fin, beg, (ratio - 0.5f) * 2.0f);// 0.5f -> 1.0f : 1.0f -> 0.0f
+	}
+
 	static float BounceInterpolation(float beg, float fin, float ratio){
 		//logarithm added with diminshing sine wave
 		//log max amplitude = 1 - sine max amplitude / 2
@@ -129,5 +136,11 @@ public:
 			return -(abs(value) - remainder);
 		else
 			return value + multiple - remainder;
+	}
+	
+	template<typename T>
+	static T ConstrainMap(T value, T inLow, T inMax, T outMin, T outMax){
+		T mappedValue = (value - inLow) * (outMax - outMin) / (inMax - inLow) + outMin;
+		return Constrain(mappedValue, outMin, outMax);
 	}
 };
