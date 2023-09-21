@@ -28,17 +28,17 @@ SMARTMATRIX_ALLOCATE_BUFFERS(matrix, kMatrixWidth, kMatrixHeight, kRefreshDepth,
 SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(backgroundLayer, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kBackgroundLayerOptions);
 
 //APA102
-#define ENABLE_APA102_REFRESH   1
-const uint16_t kApaMatrixWidth = 100;          // adjust this to your APA matrix/strip
-const uint16_t kApaMatrixHeight = 1;         // set kApaMatrixHeight to 1 for a strip
-const uint8_t kApaRefreshDepth = 36;        // not used for APA matrices as of now
-const uint8_t kApaDmaBufferRows = 1;        // not used for APA matrices as of now
-const uint8_t kApaPanelType = 0;            // not used for APA matrices as of now
-const uint32_t kApaMatrixOptions = (SM_APA102_OPTIONS_COLOR_ORDER_BGR);      // The default color order is BGR, change here to match your LEDs
-const uint8_t kApaBackgroundLayerOptions = (SM_BACKGROUND_OPTIONS_NONE);
+// #define ENABLE_APA102_REFRESH   1
+// const uint16_t kApaMatrixWidth = 100;          // adjust this to your APA matrix/strip
+// const uint16_t kApaMatrixHeight = 1;         // set kApaMatrixHeight to 1 for a strip
+// const uint8_t kApaRefreshDepth = 36;        // not used for APA matrices as of now
+// const uint8_t kApaDmaBufferRows = 1;        // not used for APA matrices as of now
+// const uint8_t kApaPanelType = 0;            // not used for APA matrices as of now
+// const uint32_t kApaMatrixOptions = (SM_APA102_OPTIONS_COLOR_ORDER_BGR);      // The default color order is BGR, change here to match your LEDs
+// const uint8_t kApaBackgroundLayerOptions = (SM_BACKGROUND_OPTIONS_NONE);
 
-SMARTMATRIX_APA_ALLOCATE_BUFFERS(apamatrix, kApaMatrixWidth, kApaMatrixHeight, kApaRefreshDepth, kApaDmaBufferRows, kApaPanelType, kApaMatrixOptions);
-SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(apaBackgroundLayer, kApaMatrixWidth, kApaMatrixHeight, COLOR_DEPTH, kApaBackgroundLayerOptions);
+// SMARTMATRIX_APA_ALLOCATE_BUFFERS(apamatrix, kApaMatrixWidth, kApaMatrixHeight, kApaRefreshDepth, kApaDmaBufferRows, kApaPanelType, kApaMatrixOptions);
+// SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(apaBackgroundLayer, kApaMatrixWidth, kApaMatrixHeight, COLOR_DEPTH, kApaBackgroundLayerOptions);
 
 class SmartMatrixHUB75 : public Controller {
 private:
@@ -67,20 +67,20 @@ public:
 
         backgroundLayer.swapBuffers();//for ESP32 - first is ignored
 
-        //APA102
-        pinMode(SMARTLED_APA_ENABLE_PIN, OUTPUT);
-        digitalWrite(SMARTLED_APA_ENABLE_PIN, HIGH);  // enable access to LEDs
-        apamatrix.addLayer(&apaBackgroundLayer);
+        // //APA102
+        // pinMode(SMARTLED_APA_ENABLE_PIN, OUTPUT);
+        // digitalWrite(SMARTLED_APA_ENABLE_PIN, HIGH);  // enable access to LEDs
+        // apamatrix.addLayer(&apaBackgroundLayer);
 
-        apamatrix.begin();
+        // apamatrix.begin();
     }
 
     void Display() override {
         matrix.setBrightness(brightness);
-        apamatrix.setBrightness(accentBrightness);
+        // apamatrix.setBrightness(accentBrightness);
 
-        while(apaBackgroundLayer.isSwapPending());
-        rgb24 *apabuffer = apaBackgroundLayer.backBuffer();
+        // while(apaBackgroundLayer.isSwapPending());
+        // rgb24 *apabuffer = apaBackgroundLayer.backBuffer();
 
         for (uint16_t y = 0; y < 32; y++) {
             for (uint16_t x = 0; x < 64; x++){
@@ -93,11 +93,11 @@ public:
             }
         }
 
-        for (uint16_t x = 0; x < kApaMatrixWidth; x++){
-            apabuffer[x] = CRGB(camSidePixels.GetColor(x)->R, camSidePixels.GetColor(x)->G, camSidePixels.GetColor(x)->B);
-        }
+        // for (uint16_t x = 0; x < kApaMatrixWidth; x++){
+        //     apabuffer[x] = CRGB(camSidePixels.GetColor(x)->R, camSidePixels.GetColor(x)->G, camSidePixels.GetColor(x)->B);
+        // }
         
         backgroundLayer.swapBuffers();
-        apaBackgroundLayer.swapBuffers(false);
+        // apaBackgroundLayer.swapBuffers(false);
     }
 };

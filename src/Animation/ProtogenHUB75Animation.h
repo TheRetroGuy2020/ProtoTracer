@@ -290,7 +290,7 @@ public:
         background.GetObject()->SetMaterial(&backgroundMaterial);
         ledStripBackground.GetObject()->SetMaterial(&materialAnimator);
 
-        boop.Initialize(5);
+        // boop.Initialize(5);
 
         MicrophoneFourierIT::Initialize(A2, 8000, 50.0f, 120.0f);//8KHz sample rate, 50dB min, 120dB max
         //Menu::Initialize(9);//NeoTrellis

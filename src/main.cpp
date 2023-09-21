@@ -3,13 +3,13 @@
 //#define BETAWS35
 //#define GAMMAFRONT
 //#define GAMMABACK
-//#define HUB75
+#define HUB75
 //#define HUB75Split
 //#define HUB75Square
 //#define WS35
 //#define WS35SPLIT
 //#define ESP32HUB75
-#define CUSTOMHUB75
+// #define CUSTOMHUB75
 //#define CUSTOMWS35
 
 //#define PRINTINFO
@@ -98,9 +98,9 @@ BasilGardenAnimation animation = BasilGardenAnimation();
 
 //--------------- CONTROLLERS ---------------
 //#include "Controllers\KaiborgV1Controller.h"
-#include "Controllers\KaiborgV1D1Controller.h"
+// #include "Controllers\KaiborgV1D1Controller.h"
 //#include "Controllers\ProtoDRController.h"
-//#include "Controllers\SmartMatrixHUB75.h"
+#include "Controllers\SmartMatrixHUB75.h"
 //#include "Controllers\SmartMatrixHUB75Split.h"
 //#define HUB75
 #define WS35SPLIT
@@ -128,7 +128,11 @@ float FreeMem(){
 void setup() {
     Serial.begin(115200);
     Serial.println("\nStarting...");
-
+    pinMode(10, OUTPUT);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(100);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(100);
     controller.Initialize();
 }
 
